@@ -4,6 +4,11 @@
             <template for:each={accs.data} for:item="acc">
                 <p key={acc.Id}>{acc.Name}</p>
             </template>
+            <template if:true={accs.error}>
+                <template for:each={accs.error} for:item="error">
+                    <p key={error.Id}>{acc.Name}</p>
+                </template>
+            </template>
         </template>
     </div>
 </template>
