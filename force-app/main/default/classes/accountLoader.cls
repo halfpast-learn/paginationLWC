@@ -1,10 +1,8 @@
 public with sharing class accountLoader {
-    public accountLoader() {
-
-    }
-    public List<Account> getAccountList()
+    
+    @AuraEnabled(cacheable=true)
+    public static List<Account> getAccountList()
     {
-        List<Account> accs=new List<Account>();
-        return accs;
+        return [SELECT Id, Name FROM Account LIMIT 5];
     }
 }

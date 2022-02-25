@@ -1,3 +1,9 @@
 <template>
-    
+    <div>
+        <template if:true={accs.data}>
+            <template for:each={accs.data} for:item="acc">
+                <p key={acc.Id}>{acc.Name}</p>
+            </template>
+        </template>
+    </div>
 </template>
