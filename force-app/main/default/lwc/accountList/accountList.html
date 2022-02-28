@@ -1,14 +1,22 @@
 <template>
-    <div>
-        <template if:true={accs.data}>
+    <table class="slds-table slds-table_bordered slds-border_left slds-border_right">
+        <thead>
+            <tr class="slds-line-height_reset">
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Name">Id</div>
+                </th>
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Some Custom Column">Name</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
             <template for:each={accs.data} for:item="acc">
-                <p key={acc.Id}>{acc.Name}</p>
+                <tr key={acc.Id}>
+                    <td>{acc.Id}</td>
+                    <td>{acc.Name}</td>
+                </tr>
             </template>
-            <template if:true={accs.error}>
-                <template for:each={accs.error} for:item="error">
-                    <p key={error.Id}>{acc.Name}</p>
-                </template>
-            </template>
-        </template>
-    </div>
+        </tbody>
+    </table>
 </template>
