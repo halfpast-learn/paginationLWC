@@ -1,0 +1,31 @@
+<template>
+    <table class="slds-table slds-table_bordered slds-border_left slds-border_right">
+        <thead>
+            <tr class="slds-line-height_reset">
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Name">Id</div>
+                </th>
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Some Custom Column">Name</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <template if:true={accs}>
+                <template for:each={accPage} for:item="acc">
+                    <tr key={acc.Id}>
+                        <td>{acc.Id}</td>
+                        <td class="slds-cell-wrap">{acc.Name}</td>
+                    </tr>
+                </template>
+            </template>
+        </tbody>
+    </table>
+    <lightning-button-group class="slds-var-p-around_small slds-align_absolute-center">
+        <lightning-button label="<<" onclick={handlePageChange}></lightning-button>
+        <lightning-button label="Previous" onclick={handlePageChange}></lightning-button>
+        <lightning-button label={pageNumber} disabled="true"></lightning-button>
+        <lightning-button label="Next" onclick={handlePageChange}></lightning-button>
+        <lightning-button label=">>" onclick={handlePageChange}></lightning-button>
+    </lightning-button-group>
+</template>
