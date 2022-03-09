@@ -11,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-            <template if:true={accs}>
+            <template if:true={currentAccs}>
                 <template for:each={accPage} for:item="acc">
                     <tr key={acc.Id}>
                         <td>{acc.Id}</td>
@@ -24,7 +24,7 @@
     <lightning-button-group class="slds-var-p-around_small slds-align_absolute-center">
         <lightning-button label="<<" onclick={handlePageChange}></lightning-button>
         <lightning-button label="Previous" onclick={handlePageChange}></lightning-button>
-        <lightning-button label={pageNumber} disabled="true"></lightning-button>
+        <lightning-button label={currentPage} disabled="true"></lightning-button>
         <lightning-button label="Next" onclick={handlePageChange}></lightning-button>
         <lightning-button label=">>" onclick={handlePageChange}></lightning-button>
     </lightning-button-group>
