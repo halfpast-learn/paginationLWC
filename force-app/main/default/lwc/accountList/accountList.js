@@ -3,17 +3,42 @@ import getAccountList from '@salesforce/apex/AccountLoader.getAccountList';
 import getTotalPages from '@salesforce/apex/accountLoader.getTotalPages';
 
 export default class AccountList extends LightningElement {
-    @track accs;
     allAccsSize;
+
+    @track accs;
     @track totalPages;
+    @track currentPage;
+    @track recordAmount;
+
     handlePageRequest(event) {
-        let page = event.detail.page - 1;
-        let recordAmount = event.detail.limit;
-        getAccountList({ lim: recordAmount, offset: page * recordAmount })
-            .then(result => {
-                this.accs = result;
-                this.totalPages = this.allAccsSize / recordAmount;
-            });
+        let page;
+        switch (event.detail) {
+            case 'Next':
+                page = this.currentPage + 1;
+                break;
+            case 'Previous':
+                page = this.currentPage - 1;
+                break;
+            case '>>':
+                page = this.totalPages;
+                break;
+            case '<<':
+                page = 1;
+                break;
+        }
+        if (page > 0 && page <= this.totalPages) {
+            getAccountList({ lim: recordAmount, offset: (page - 1) * recordAmount })
+                .then(result => {
+                    this.accs = result;
+                    this.totalPages = this.allAccsSize / recordAmount;
+                });
+        }
+    }
+    handleSearchRequest(event) {
+
+    }
+    handleRecordAmountChange(event) {
+
     }
     connectedCallback() {
         getTotalPages()

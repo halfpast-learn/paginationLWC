@@ -1,8 +1,7 @@
 <template>
     <div class="slds-box slds-theme_default">
-        <lightning-input type="string" label="Search " onchange={handleSearch}></lightning-input>
-        <c-account-table-view current-accs={accs} total-pages={totalPages}>
-        </c-account-table-view>
+        <c-account-table-search onsearchrequest={handleSearchRequest}></c-account-table-search>
+        <c-account-table-view current-accs={accs} total-pages={totalPages}></c-account-table-view>
         <c-page-switch onpagerequest={handlePageRequest} onrecordamountchange={handleRecordAmountChange}>
         </c-page-switch>
     </div>

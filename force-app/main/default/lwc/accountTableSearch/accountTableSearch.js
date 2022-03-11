@@ -1,3 +1,7 @@
 import { LightningElement } from 'lwc';
 
-export default class AccountTableSearch extends LightningElement { }
+export default class AccountTableSearch extends LightningElement {
+    handleSearch(event) {
+
+    }
+}

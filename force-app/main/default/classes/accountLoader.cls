@@ -1,9 +1,10 @@
 public with sharing class accountLoader {
     
     @AuraEnabled(cacheable=true)
-    public static List<Account> getAccountList(Integer lim, Integer offset)
+    public static List<Account> getAccountList(String searchString, Integer lim, Integer offset)
     {
-        return [SELECT Id, Name FROM Account LIMIT :lim OFFSET :offset];
+        String str = '%'+searchString+'%';
+        return [SELECT Id, Name FROM Account WHERE Name LIKE :str LIMIT :lim OFFSET :offset];
     }
 
     @AuraEnabled(cacheable=true)
