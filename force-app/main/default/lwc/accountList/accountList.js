@@ -26,11 +26,13 @@ export default class AccountList extends LightningElement {
                 page = 1;
                 break;
         }
+        console.log(event.detail);
         if (page > 0 && page <= this.totalPages) {
-            getAccountList({ lim: recordAmount, offset: (page - 1) * recordAmount })
+            getAccountList({ lim: this.recordAmount, offset: (page - 1) * this.recordAmount })
                 .then(result => {
                     this.accs = result;
-                    this.totalPages = this.allAccsSize / recordAmount;
+                    this.totalPages = this.allAccsSize / this.recordAmount;
+                    this.currentPage = parseInt(page);
                 });
         }
     }
@@ -43,5 +45,12 @@ export default class AccountList extends LightningElement {
     connectedCallback() {
         getTotalPages()
             .then(result => { this.allAccsSize = result; });
+        this.currentPage = 1;
+        this.recordAmount = 5;
+        getAccountList({ lim: this.recordAmount, offset: (this.currentPage - 1) * this.recordAmount })
+            .then(result => {
+                this.accs = result;
+                this.totalPages = this.allAccsSize / this.recordAmount;
+            });
     }
 }

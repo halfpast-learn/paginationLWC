@@ -11,22 +11,7 @@ export default class PageSwitch extends LightningElement {
         ];
     }
     handlePageChange(event) {
-        let page;
-        switch (event.target.label) {
-            case 'Next':
-                page = 'Next';
-                break;
-            case 'Previous':
-                page = 'Prev';
-                break;
-            case '>>':
-                page = 'Last';
-                break;
-            case '<<':
-                page = 'First';
-                break;
-        }
-        this.requestPage(page);
+        this.requestPage(event.target.label);
     }
     requestPage(page) {
         const requestEvent = new CustomEvent('pagerequest', { detail: page });

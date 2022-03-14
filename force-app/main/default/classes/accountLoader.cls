@@ -3,7 +3,16 @@ public with sharing class accountLoader {
     @AuraEnabled(cacheable=true)
     public static List<Account> getAccountList(String searchString, Integer lim, Integer offset)
     {
-        String str = '%'+searchString+'%';
+        String str;
+        if (searchString!=null)
+        {
+            str='%'+searchString+'%';
+        }
+        else {
+            str='%';
+        }
+        System.debug(offset);
+
         return [SELECT Id, Name FROM Account WHERE Name LIKE :str LIMIT :lim OFFSET :offset];
     }
 
