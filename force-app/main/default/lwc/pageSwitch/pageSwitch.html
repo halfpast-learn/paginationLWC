@@ -6,7 +6,7 @@
         <lightning-button label="Next" onclick={handlePageChange}></lightning-button>
         <lightning-button label=">>" onclick={handlePageChange}></lightning-button>
     </lightning-button-group>
-    <lightning-combobox name="recordAmount" label="Show records" value={value} placeholder="5" options={options}
+    <lightning-combobox name="recordAmount" label="Show records" value={recordAmount} placeholder="5" options={options}
         onchange={requestRecordAmountChange}>
     </lightning-combobox>
 </template>

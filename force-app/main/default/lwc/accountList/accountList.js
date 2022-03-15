@@ -9,7 +9,8 @@ export default class AccountList extends LightningElement {
     @track totalPages;
     @track currentPage;
     @track recordAmount;
-
+    @track searchString;
+    s
     handlePageRequest(event) {
         let page;
         switch (event.detail) {
@@ -26,31 +27,36 @@ export default class AccountList extends LightningElement {
                 page = 1;
                 break;
         }
-        console.log(event.detail);
+        console.log(this.totalPages);
         if (page > 0 && page <= this.totalPages) {
-            getAccountList({ lim: this.recordAmount, offset: (page - 1) * this.recordAmount })
-                .then(result => {
-                    this.accs = result;
-                    this.totalPages = this.allAccsSize / this.recordAmount;
-                    this.currentPage = parseInt(page);
-                });
+            this.currentPage = parseInt(page);
+            this.updateAccs();
         }
     }
     handleSearchRequest(event) {
-
+        this.currentPage = 1;
+        this.searchString = event.detail;
+        this.getTotalPages({ searchString: this.searchString }).then(result => { this.allAccsSize = result; this.totalPages = result / this.recordAmount; this.updateAccs(); })
     }
     handleRecordAmountChange(event) {
-
+        this.recordAmount = event.detail;
+        this.totalPages = this.allAccsSize / this.recordAmount;
+        this.updateAccs();
     }
     connectedCallback() {
-        getTotalPages()
-            .then(result => { this.allAccsSize = result; });
-        this.currentPage = 1;
-        this.recordAmount = 5;
-        getAccountList({ lim: this.recordAmount, offset: (this.currentPage - 1) * this.recordAmount })
+        getTotalPages().then(result => {
+            this.allAccsSize = result;
+            this.recordAmount = 5;
+            this.totalPages = this.allAccsSize / this.recordAmount;
+            this.currentPage = 1;
+            this.updateAccs();
+        });
+    }
+
+    updateAccs() {
+        getAccountList({ searchString: this.searchString, lim: this.recordAmount, offset: (this.currentPage - 1) * this.recordAmount })
             .then(result => {
                 this.accs = result;
-                this.totalPages = this.allAccsSize / this.recordAmount;
             });
     }
 }

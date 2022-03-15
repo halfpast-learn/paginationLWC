@@ -15,17 +15,17 @@ public with sharing class accountLoader {
 
         return [SELECT Id, Name FROM Account WHERE Name LIKE :str LIMIT :lim OFFSET :offset];
     }
-
-    @AuraEnabled(cacheable=true)
-    public static List<Account> findAccounts(String filterString){
-        List<List<Account>> result = [FIND :filterString IN ALL FIELDS RETURNING Account(Id,Name)];
-        Account[] searchAccounts = (Account[])result[0];
-        return searchAccounts;
-    }
-
     @AuraEnabled
-    public static Integer getTotalPages(){
-        List<Account> allAccs = [SELECT Id FROM Account];
+    public static Integer getTotalPages(String searchString){
+        String str;
+        if (searchString!=null)
+        {
+            str='%'+searchString+'%';
+        }
+        else {
+            str='%';
+        }
+        List<Account> allAccs = [SELECT Name FROM Account WHERE Name LIKE :str];
         return allAccs.size();
     }
 }
