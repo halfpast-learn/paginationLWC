@@ -10,7 +10,7 @@ export default class AccountList extends LightningElement {
     @track currentPage;
     @track recordAmount;
     @track searchString;
-    s
+
     handlePageRequest(event) {
         let page;
         switch (event.detail) {
@@ -27,7 +27,6 @@ export default class AccountList extends LightningElement {
                 page = 1;
                 break;
         }
-        console.log(this.totalPages);
         if (page > 0 && page <= this.totalPages) {
             this.currentPage = parseInt(page);
             this.updateAccs();
@@ -36,7 +35,7 @@ export default class AccountList extends LightningElement {
     handleSearchRequest(event) {
         this.currentPage = 1;
         this.searchString = event.detail;
-        this.getTotalPages({ searchString: this.searchString }).then(result => { this.allAccsSize = result; this.totalPages = result / this.recordAmount; this.updateAccs(); })
+        getTotalPages({ searchString: this.searchString }).then(result => { this.allAccsSize = result; this.updateTotalPages(); this.updateAccs(); });
     }
     handleRecordAmountChange(event) {
         this.recordAmount = event.detail;
@@ -47,10 +46,13 @@ export default class AccountList extends LightningElement {
         getTotalPages().then(result => {
             this.allAccsSize = result;
             this.recordAmount = 5;
-            this.totalPages = this.allAccsSize / this.recordAmount;
             this.currentPage = 1;
+            this.updateTotalPages();
             this.updateAccs();
         });
+    }
+    updateTotalPages() {
+        this.totalPages = Math.ceil(this.allAccsSize / this.recordAmount);
     }
 
     updateAccs() {

@@ -11,21 +11,17 @@ public with sharing class accountLoader {
         else {
             str='%';
         }
-        System.debug(offset);
 
         return [SELECT Id, Name FROM Account WHERE Name LIKE :str LIMIT :lim OFFSET :offset];
     }
     @AuraEnabled
     public static Integer getTotalPages(String searchString){
-        String str;
+        String str='%';
         if (searchString!=null)
         {
             str='%'+searchString+'%';
         }
-        else {
-            str='%';
-        }
-        List<Account> allAccs = [SELECT Name FROM Account WHERE Name LIKE :str];
+        List<Account> allAccs = [SELECT Id, Name FROM Account WHERE Name LIKE :str];
         return allAccs.size();
     }
 }
