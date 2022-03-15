@@ -2,11 +2,17 @@
     <lightning-button-group class="slds-var-p-around_small slds-align_absolute-center">
         <lightning-button label="<<" onclick={handlePageChange}></lightning-button>
         <lightning-button label="Previous" onclick={handlePageChange}></lightning-button>
-        <lightning-button label={currentPage} disabled="true"></lightning-button>
+        <lightning-button label={currentPage} disabled></lightning-button>
         <lightning-button label="Next" onclick={handlePageChange}></lightning-button>
         <lightning-button label=">>" onclick={handlePageChange}></lightning-button>
     </lightning-button-group>
-    <lightning-combobox name="recordAmount" label="Show records" value={recordAmount} placeholder="5" options={options}
-        onchange={requestRecordAmountChange}>
+    <lightning-combobox
+        name="recordAmount"
+        label="Show records"
+        value={recordAmount}
+        placeholder="5"
+        options={options}
+        onchange={requestRecordAmountChange}
+    >
     </lightning-combobox>
 </template>

@@ -1,15 +1,35 @@
-import { LightningElement, wire, track } from 'lwc';
-import getAccountList from '@salesforce/apex/AccountLoader.getAccountList';
-import getTotalPages from '@salesforce/apex/accountLoader.getTotalPages';
+import { LightningElement } from 'lwc';
+import getAccounts from '@salesforce/apex/accountLoader.getAccounts';
 
 export default class AccountList extends LightningElement {
-    allAccsSize;
+    currentPage;
+    accs;
+    searchString;
+    totalPages;
 
-    @track accs;
-    @track totalPages;
-    @track currentPage;
-    @track recordAmount;
-    @track searchString;
+    _totalAccounts;
+    set totalAccounts(value) {
+        this._totalAccounts = value;
+        this.updateTotalPages();
+    }
+    get totalAccounts() {
+        return this._totalAccounts;
+    }
+
+    _pageSize;
+    set pageSize(value) {
+        this._pageSize = value;
+        this.updateTotalPages();
+    }
+    get pageSize() {
+        return this._pageSize;
+    }
+
+    updateTotalPages() {
+        if (this.totalAccounts && this.pageSize) {
+            this.totalPages = Math.ceil(this.totalAccounts / this.pageSize);
+        }
+    }
 
     handlePageRequest(event) {
         let page;
@@ -26,39 +46,33 @@ export default class AccountList extends LightningElement {
             case '<<':
                 page = 1;
                 break;
+            default:
+                break;
         }
         if (page > 0 && page <= this.totalPages) {
-            this.currentPage = parseInt(page);
-            this.updateAccs();
+            this.currentPage = page;
+            this.loadAccounts(this.searchString, this.currentPage, this.pageSize);
         }
     }
     handleSearchRequest(event) {
         this.currentPage = 1;
         this.searchString = event.detail;
-        getTotalPages({ searchString: this.searchString }).then(result => { this.allAccsSize = result; this.updateTotalPages(); this.updateAccs(); });
+        this.loadAccounts(this.searchString, this.currentPage, this.pageSize);
     }
     handleRecordAmountChange(event) {
-        this.recordAmount = event.detail;
-        this.totalPages = this.allAccsSize / this.recordAmount;
-        this.updateAccs();
+        this.currentPage = 1;
+        this.pageSize = event.detail;
+        this.loadAccounts(this.searchString, this.currentPage, this.pageSize);
     }
     connectedCallback() {
-        getTotalPages().then(result => {
-            this.allAccsSize = result;
-            this.recordAmount = 5;
-            this.currentPage = 1;
-            this.updateTotalPages();
-            this.updateAccs();
-        });
-    }
-    updateTotalPages() {
-        this.totalPages = Math.ceil(this.allAccsSize / this.recordAmount);
+        this.pageSize = 5;
+        this.currentPage = 1;
+        this.loadAccounts(this.searchString, this.currentPage, this.pageSize);
     }
 
-    updateAccs() {
-        getAccountList({ searchString: this.searchString, lim: this.recordAmount, offset: (this.currentPage - 1) * this.recordAmount })
-            .then(result => {
-                this.accs = result;
-            });
+    async loadAccounts(searchString, pageNumber, pageSize) {
+        const result = await getAccounts({ searchString, pageNumber, pageSize });
+        this.accs = result.accounts;
+        this.totalAccounts = result.totalAccounts;
     }
 }

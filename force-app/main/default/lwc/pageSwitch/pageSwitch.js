@@ -18,7 +18,9 @@ export default class PageSwitch extends LightningElement {
         this.dispatchEvent(requestEvent);
     }
     requestRecordAmountChange(event) {
-        const requestEvent = new CustomEvent('recordamountchange', { detail: event.detail.value });
+        const requestEvent = new CustomEvent('recordamountchange', {
+            detail: event.detail.value,
+        });
         this.dispatchEvent(requestEvent);
     }
 }
