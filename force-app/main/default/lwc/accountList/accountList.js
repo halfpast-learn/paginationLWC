@@ -32,27 +32,8 @@ export default class AccountList extends LightningElement {
     }
 
     handlePageRequest(event) {
-        let page;
-        switch (event.detail) {
-            case 'Next':
-                page = this.currentPage + 1;
-                break;
-            case 'Previous':
-                page = this.currentPage - 1;
-                break;
-            case '>>':
-                page = this.totalPages;
-                break;
-            case '<<':
-                page = 1;
-                break;
-            default:
-                break;
-        }
-        if (page > 0 && page <= this.totalPages) {
-            this.currentPage = page;
-            this.loadAccounts(this.searchString, this.currentPage, this.pageSize);
-        }
+        this.currentPage = event.detail;
+        this.loadAccounts(this.searchString, this.currentPage, this.pageSize);
     }
     handleSearchRequest(event) {
         this.currentPage = 1;

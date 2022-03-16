@@ -2,6 +2,7 @@
     <div class="slds-box slds-theme_default">
         <c-account-table-search onsearchrequest={handleSearchRequest}></c-account-table-search>
         <c-account-table-view current-accs={accs}></c-account-table-view>
-        <c-page-switch onpagerequest={handlePageRequest} onrecordamountchange={handleRecordAmountChange} current-page={currentPage}> </c-page-switch>
+        <c-page-switch onpagerequest={handlePageRequest} onrecordamountchange={handleRecordAmountChange}
+            current-page={currentPage} total-pages={totalPages}> </c-page-switch>
     </div>
 </template>
