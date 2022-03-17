@@ -53,7 +53,6 @@ export default class AccountList extends LightningElement {
 
     async loadAccounts(searchString, pageNumber, pageSize) {
         const result = await getAccounts({ searchString, pageNumber, pageSize });
-        this.accs = result.accounts;
-        this.totalAccounts = result.totalAccounts;
+        [this.accs, this.totalAccounts] = [result.accounts, result.totalAccounts];
     }
 }
